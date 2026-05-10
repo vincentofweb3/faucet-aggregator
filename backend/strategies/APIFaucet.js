@@ -6,7 +6,7 @@ class APIFaucet {
   async send(walletAddress) {
     // placeholder — each chain's API call will be implemented here
     console.log(
-      `[APIFaucet] Sending ${this.chain.dripAmount} ${this.chain.symbol} to ${walletAddress} on ${this.chain.name}`
+      `[APIFaucet] Sending ${this.chain.dripAmount} ${this.chain.symbol} to ${walletAddress} on ${this.chain.name}`,
     );
     return {
       txHash: null,

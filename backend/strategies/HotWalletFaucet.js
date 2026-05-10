@@ -12,7 +12,7 @@ class HotWalletFaucet {
     const amount = ethers.parseEther(this.chain.dripAmount);
 
     console.log(
-      `[HotWalletFaucet] Sending ${this.chain.dripAmount} ${this.chain.symbol} to ${walletAddress} on ${this.chain.name}`
+      `[HotWalletFaucet] Sending ${this.chain.dripAmount} ${this.chain.symbol} to ${walletAddress} on ${this.chain.name}`,
     );
 
     const tx = await wallet.sendTransaction({
