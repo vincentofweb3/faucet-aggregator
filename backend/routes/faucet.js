@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const { getEnabledChains, getChain } = require("../config/chains.config");
 const claimService = require("../services/claimService");
+const { claimLimiter } = require("../middleware/rateLimiter");
 
-// GET /api/faucet/chains  — return all supported chains
+// GET /api/faucet/chains
 router.get("/chains", (req, res) => {
   const chains = getEnabledChains().map((c) => ({
     id: c.id,
@@ -17,15 +18,22 @@ router.get("/chains", (req, res) => {
   res.json({ success: true, chains });
 });
 
-// POST /api/faucet/claim  — request tokens
-router.post("/claim", async (req, res) => {
+// POST /api/faucet/claim
+router.post("/claim", claimLimiter, async (req, res) => {
   const { walletAddress, chainId } = req.body;
 
-  // basic validation
   if (!walletAddress || !chainId) {
     return res.status(400).json({
       success: false,
       error: "walletAddress and chainId are required",
+    });
+  }
+
+  // basic wallet address validation
+  if (!/^0x[a-fA-F0-9]{40}$/.test(walletAddress)) {
+    return res.status(400).json({
+      success: false,
+      error: "Invalid wallet address format",
     });
   }
 
@@ -41,7 +49,7 @@ router.post("/claim", async (req, res) => {
     const result = await claimService.processClaim(walletAddress, chain);
     res.json({ success: true, ...result });
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(400).json({ success: false, error: err.message });
   }
 });
 

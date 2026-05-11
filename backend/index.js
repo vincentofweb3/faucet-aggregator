@@ -3,6 +3,7 @@ require("./config/db");
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+const { globalLimiter } = require("./middleware/rateLimiter");
 
 const faucetRoutes = require("./routes/faucet");
 
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 3001;
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+app.use(globalLimiter);
 
 // ── Routes ───────────────────────────────────────────────────
 app.use("/api/faucet", faucetRoutes);
