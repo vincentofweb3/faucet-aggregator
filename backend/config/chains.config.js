@@ -137,7 +137,7 @@ const chains = [
     name: "ARC Testnet",
     type: "hotwallet",
     chainId: 10001,
-    symbol: "ACOL",
+    symbol: "USDC",
     dripAmount: "1",
     explorer: "https://explorer.arcology.network",
     rpcUrl: process.env.ARC_RPC_URL,
