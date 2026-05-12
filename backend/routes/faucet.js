@@ -14,6 +14,7 @@ router.get("/chains", (req, res) => {
     dripAmount: c.dripAmount,
     explorer: c.explorer,
     logoUrl: c.logoUrl,
+    comingSoon: c.comingSoon || false,
   }));
   res.json({ success: true, chains });
 });
@@ -29,7 +30,6 @@ router.post("/claim", claimLimiter, async (req, res) => {
     });
   }
 
-  // basic wallet address validation
   if (!/^0x[a-fA-F0-9]{40}$/.test(walletAddress)) {
     return res.status(400).json({
       success: false,
@@ -42,6 +42,14 @@ router.post("/claim", claimLimiter, async (req, res) => {
     return res.status(404).json({
       success: false,
       error: "Chain not supported",
+    });
+  }
+
+  // block coming soon chains BEFORE any processing
+  if (chain.comingSoon) {
+    return res.status(400).json({
+      success: false,
+      error: `${chain.name} is coming soon — wallet funding in progress.`,
     });
   }
 

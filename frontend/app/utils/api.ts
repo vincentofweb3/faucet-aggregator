@@ -8,6 +8,7 @@ export interface Chain {
   dripAmount: string;
   explorer: string;
   logoUrl: string;
+  comingSoon?: boolean;
 }
 
 export interface ClaimResult {

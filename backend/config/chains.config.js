@@ -118,7 +118,7 @@ const chains = [
     enabled: true,
   },
 
-  // ── GROUP C: Hot wallet faucets ─────────────────────────────
+  // GenLayer
   {
     id: "genlayer",
     name: "GenLayer Testnet",
@@ -131,7 +131,9 @@ const chains = [
     walletKey: process.env.GENLAYER_WALLET_KEY,
     logoUrl: "/logos/genlayer.svg",
     enabled: true,
+    comingSoon: true,
   },
+  // ARC
   {
     id: "arc",
     name: "ARC Testnet",
@@ -144,6 +146,7 @@ const chains = [
     walletKey: process.env.ARC_WALLET_KEY,
     logoUrl: "/logos/arc.svg",
     enabled: true,
+    comingSoon: true,
   },
   {
     id: "zksync-sepolia",
@@ -157,6 +160,7 @@ const chains = [
     walletKey: process.env.ZKSYNC_WALLET_KEY,
     logoUrl: "/logos/zksync.svg",
     enabled: true,
+    comingSoon: true,
   },
   {
     id: "linea-sepolia",
@@ -170,6 +174,7 @@ const chains = [
     walletKey: process.env.LINEA_WALLET_KEY,
     logoUrl: "/logos/linea.svg",
     enabled: true,
+    comingSoon: true,
   },
   {
     id: "monad",
@@ -183,6 +188,7 @@ const chains = [
     walletKey: process.env.MONAD_WALLET_KEY,
     logoUrl: "/logos/monad.svg",
     enabled: true,
+    comingSoon: true,
   },
 ];
 
