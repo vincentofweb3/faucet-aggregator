@@ -6,9 +6,9 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Faucet Aggregator — Get Testnet Tokens",
+  title: "DripLane — Multi-chain Testnet Faucet",
   description:
-    "One place to claim testnet tokens across multiple chains including Sepolia, Base, Optimism, Arbitrum, GenLayer, ARC and more.",
+    "Get free testnet tokens across 15+ chains including Sepolia, Base, Optimism, Arbitrum, GenLayer, ARC and more. One place for all your testnet needs.",
 };
 
 export default function RootLayout({
