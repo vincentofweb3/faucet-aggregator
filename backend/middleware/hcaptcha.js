@@ -1,6 +1,12 @@
 const axios = require("axios");
 
 const verifyHcaptcha = async (req, res, next) => {
+  // Bypass if no secret configured (dev/test mode)
+  if (!process.env.HCAPTCHA_SECRET) {
+    console.warn("⚠️  HCAPTCHA_SECRET not set — skipping captcha verification");
+    return next();
+  }
+
   const token = req.body.hcaptchaToken;
 
   if (!token) {
