@@ -113,7 +113,7 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
             {[
               "Ethereum Sepolia", "Ethereum Hoodi", "Base Sepolia",
               "Optimism Sepolia", "Arbitrum Sepolia", "Polygon Amoy",
-              "BNB Testnet", "Avalanche Fuji", "Scroll Sepolia",
+              "BNB Testnet", "Avalanche", "Scroll Sepolia",
               "GenLayer", "ARC Testnet", "zkSync Sepolia",
               "Linea Sepolia", "Monad Testnet", "More soon...",
             ].map((chain) => (
@@ -198,7 +198,7 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
           <span>🚰</span>
           <span className="font-bold text-gray-400">DripLane</span>
         </div>
-        <p>Multi-chain testnet faucet aggregator — Free forever</p>
+        <p>Multi-chain testnet faucet aggregator - Free forever</p>
       </footer>
 
     </main>

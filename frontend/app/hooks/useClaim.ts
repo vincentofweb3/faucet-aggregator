@@ -6,13 +6,13 @@ export const useClaim = () => {
   const [result, setResult] = useState<ClaimResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const claim = async (walletAddress: string, chainId: string) => {
+  const claim = async (walletAddress: string, chainId: string, captchaToken: string) => {
     setLoading(true);
     setResult(null);
     setError(null);
 
     try {
-      const data = await claimTokens(walletAddress, chainId);
+      const data = await claimTokens(walletAddress, chainId, captchaToken);
       if (data.success) {
         setResult(data);
       } else {

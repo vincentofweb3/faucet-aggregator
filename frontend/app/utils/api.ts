@@ -29,12 +29,13 @@ export const getChains = async (): Promise<Chain[]> => {
 
 export const claimTokens = async (
   walletAddress: string,
-  chainId: string
+  chainId: string,
+  captchaToken: string
 ): Promise<ClaimResult> => {
   const res = await fetch(`${API_BASE}/faucet/claim`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ walletAddress, chainId }),
+    body: JSON.stringify({ walletAddress, chainId, hcaptchaToken: captchaToken }),
   });
   return res.json();
 };

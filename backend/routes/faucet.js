@@ -3,6 +3,7 @@ const router = express.Router();
 const { getEnabledChains, getChain } = require("../config/chains.config");
 const claimService = require("../services/claimService");
 const { claimLimiter } = require("../middleware/rateLimiter");
+const { verifyHcaptcha } = require("../middleware/hcaptcha");
 
 // GET /api/faucet/chains
 router.get("/chains", (req, res) => {
@@ -20,7 +21,7 @@ router.get("/chains", (req, res) => {
 });
 
 // POST /api/faucet/claim
-router.post("/claim", claimLimiter, async (req, res) => {
+router.post("/claim", claimLimiter, verifyHcaptcha, async (req, res) => {
   const { walletAddress, chainId } = req.body;
 
   if (!walletAddress || !chainId) {
@@ -45,7 +46,6 @@ router.post("/claim", claimLimiter, async (req, res) => {
     });
   }
 
-  // block coming soon chains BEFORE any processing
   if (chain.comingSoon) {
     return res.status(400).json({
       success: false,
@@ -57,6 +57,7 @@ router.post("/claim", claimLimiter, async (req, res) => {
     const result = await claimService.processClaim(walletAddress, chain);
     res.json({ success: true, ...result });
   } catch (err) {
+    console.error("Claim error:", err); // add this line
     res.status(400).json({ success: false, error: err.message });
   }
 });

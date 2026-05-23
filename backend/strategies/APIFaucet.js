@@ -56,11 +56,10 @@ class APIFaucet {
     });
 
     const data = await res.json();
+    console.log("Alchemy response:", JSON.stringify(data)); // add this
 
     if (!res.ok || data.error) {
-      throw new Error(
-        data.error?.message || data.message || "Alchemy faucet request failed",
-      );
+      throw new Error(data.error?.message || data.message || "Internal error");
     }
 
     return {

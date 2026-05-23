@@ -7,6 +7,8 @@ import ChainCard from "./ChainCard";
 import ClaimButton from "./ClaimButton";
 import { getChains, Chain } from "../utils/api";
 import { useClaim } from "../hooks/useClaim";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { useRef } from "react";
 
 interface DashboardProps {
   onBack: () => void;
@@ -19,6 +21,9 @@ export default function Dashboard({ onBack }: DashboardProps) {
   const [walletInput, setWalletInput] = useState("");
   const { claim, loading, result, error } = useClaim();
 
+  const captchaRef = useRef<HCaptcha>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
   useEffect(() => {
     getChains().then(setChains);
   }, []);
@@ -30,8 +35,10 @@ export default function Dashboard({ onBack }: DashboardProps) {
   const isValidAddress = /^0x[a-fA-F0-9]{40}$/.test(walletInput);
 
   const handleClaim = async () => {
-    if (!walletInput || !selectedChain || !isValidAddress) return;
-    await claim(walletInput, selectedChain.id);
+    if (!walletInput || !selectedChain || !isValidAddress || !captchaToken) return;
+    await claim(walletInput, selectedChain.id, captchaToken);
+    captchaRef.current?.resetCaptcha();
+    setCaptchaToken(null);
   };
 
   const activeChains = chains.filter((c) => !c.comingSoon);
@@ -161,11 +168,22 @@ export default function Dashboard({ onBack }: DashboardProps) {
           </div>
         )}
 
+        {/* hCaptcha */}
+        <div className="mb-4">
+          <HCaptcha
+            sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY!}
+            onVerify={(token) => setCaptchaToken(token)}
+            onExpire={() => setCaptchaToken(null)}
+            ref={captchaRef}
+            theme="dark"
+          />
+        </div>
+
         {/* Claim button */}
         <ClaimButton
           onClick={handleClaim}
           loading={loading}
-          disabled={!selectedChain || !isValidAddress}
+          disabled={!selectedChain || !isValidAddress || !captchaToken}
           result={result}
           error={error}
           selectedChain={selectedChain?.id || null}
